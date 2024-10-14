@@ -14,6 +14,17 @@ export class QuestionModel{
         this.correct = correct;
     }
 
+    responseWith(index: number) : QuestionModel {
+        const gotItRigth = this.answers[index]?.Correct;
+        const answer =  this.answers.map((answer, i) => {
+            const answerSelected = index === i;
+            const mustReveal = answerSelected || answer.Correct;
+            return mustReveal ? answer.reveal() : answer;
+        })
+
+        return new QuestionModel(this.id, this.enunciation, answer, gotItRigth)
+    }
+
     get Id() : number{
         return this.id;
     }
@@ -31,7 +42,7 @@ export class QuestionModel{
     }
 
     get answered() : boolean {
-        for(let answer of this.answers){
+        for(const answer of this.answers){
             if(answer.Revealed) return true
         }
 
@@ -48,6 +59,7 @@ export class QuestionModel{
             id: this.id,
             enunciation: this.enunciation,
             answers: this.answers.map(answer => answer.toObject()),
+            answered: this.answered,
             correct: this.correct
         }
     }
