@@ -9,6 +9,14 @@ export class AnswerModel {
         this.revealed = revealed;
     }
 
+    static correct(value: string) : AnswerModel {
+        return new AnswerModel(value, true);
+    }
+
+    static wrong(value: string) : AnswerModel {
+        return new AnswerModel(value, false);
+    }
+
     get Value() : string {
         return this.value;
     }
@@ -19,5 +27,13 @@ export class AnswerModel {
 
     get Revealed() : boolean {
         return this.revealed;
+    }
+
+    toObject(){
+        return {
+            value: this.value,
+            correct: this.correct,
+            revealed: this.revealed
+        }
     }
 }

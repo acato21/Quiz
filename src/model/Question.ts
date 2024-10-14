@@ -1,3 +1,4 @@
+import { shuffle } from "@/functions/array";
 import { AnswerModel } from "./Answer";
 
 export class QuestionModel{
@@ -35,5 +36,19 @@ export class QuestionModel{
         }
 
         return false
+    }
+
+    shuffleAnswers() : QuestionModel{
+        const scrambledAnswers = shuffle(this.answers)
+        return new QuestionModel(this.id, this.enunciation, scrambledAnswers, this.correct)
+    }
+
+    toObject(){
+        return {
+            id: this.id,
+            enunciation: this.enunciation,
+            answers: this.answers.map(answer => answer.toObject()),
+            correct: this.correct
+        }
     }
 }
